@@ -14,6 +14,12 @@ $GLOBALS ['TL_DCA'] ['tl_sis_league'] = [
                 'id' => 'primary',
                 'sisId' => 'index'
             ]
+        ],
+        'onsubmit_callback' => [
+            [
+                'Mindbird\Contao\SisBundle\Table\League',
+                'onsubmitCallback'
+            ]
         ]
     ],
     // List
@@ -60,13 +66,16 @@ $GLOBALS ['TL_DCA'] ['tl_sis_league'] = [
     ],
     // Palettes
     'palettes' => [
-        'default' => '{name_legend},sisId,user,password;'
+        'default' => '{name_legend},sisId,user,password,favoriteTeam;'
     ],
     // Fields
     'fields' => [
         'id' => [
             'sql' => "int(10) unsigned NOT NULL auto_increment"
         ],
+        'tstamp' => array(
+            'sql' => "int(10) unsigned NOT NULL default '0'"
+        ),
         'sisId' => [
             'label' => &$GLOBALS ['TL_LANG'] ['tl_sis_league'] ['sisId'],
             'exclude' => true,
@@ -97,33 +106,27 @@ $GLOBALS ['TL_DCA'] ['tl_sis_league'] = [
             'label' => &$GLOBALS ['TL_LANG'] ['tl_sis_league'] ['password'],
             'exclude' => true,
             'search' => true,
-            'inputType' => 'password',
+            'inputType' => 'text',
             'eval' => [
                 'tl_class' => 'w50',
                 'maxlength' => 255
             ],
             'sql' => "varchar(255) NOT NULL default ''"
         ],
-        'favoriteTeam' => array(
+        'favoriteTeam' => [
             'label' => &$GLOBALS['TL_LANG']['tl_company']['category'],
             'exclude' => true,
             'inputType' => 'select',
             'filter' => true,
-            'foreignKey' => 'tl_company_category.title',
-            'eval' => array(
-                'mandatory' => false,
-                'multiple' => true
-            ),
-            'sql' => "int(10) unsigned NULL",
-            'relation' => array(
-                'type' => 'hasOne',
-                'load' => 'eagerly'
-            ),
-            'options_callback' => array(
-                'Mindbird\Contao\SisBundle\Table;',
-                'optionsCallbackCategory'
-            )
-        ),
+            'eval' => [
+                'tl_class' => 'w50'
+            ],
+            'sql' => "varchar(64) NOT NULL default ''",
+            'options_callback' => [
+                'Mindbird\Contao\SisBundle\Table\League',
+                'optionsCallbackTeam'
+            ]
+        ],
     ]
 ];
 
