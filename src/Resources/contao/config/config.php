@@ -7,3 +7,4 @@ $GLOBALS ['BE_MOD'] ['content'] ['sis'] = array(
 );
 
 $GLOBALS['TL_MODELS']['tl_sis_league'] = '\Mindbird\Contao\SisBundle\Model\SisLeagueModel';
+$GLOBALS['TL_MODELS']['tl_sis_games'] = '\Mindbird\Contao\SisBundle\Model\SisGamesModel';

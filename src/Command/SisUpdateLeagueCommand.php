@@ -3,6 +3,7 @@
 namespace Mindbird\Contao\SisBundle\Command;
 
 use Mindbird\Contao\SisBundle\Service\Sis;
+use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -30,7 +31,7 @@ class SisUpdateLeagueCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->sis->create($input->getArgument('sisId'));
+        $this->sis->updateLeague($input->getArgument('sisId'));
         $output->writeln(['Update league #' . $input->getArgument('sisId')]);
     }
 }

@@ -1,4 +1,7 @@
 services:
+    _defaults:
+            autoconfigure: true
+
     _instanceof:
         Contao\CoreBundle\Framework\FrameworkAwareInterface:
             calls:
@@ -8,7 +11,16 @@ services:
             calls:
                 - ["setContainer", ["@service_container"]]
 
-    mindbird_contao_sis.service.sis:
+    mindbird.service.sis:
         class: Mindbird\Contao\SisBundle\Service\Sis
         calls:
             - [updateLeague, ['@?']]
+
+    mindbird.command.sis.update:
+        class: Mindbird\Contao\SisBundle\Command\SisUpdateAllCommand
+
+    mindbird.command.sis.update-league:
+        class: Mindbird\Contao\SisBundle\Command\SisUpdateLeagueCommand
+        arguments:
+            - "@mindbird.service.sis"
+

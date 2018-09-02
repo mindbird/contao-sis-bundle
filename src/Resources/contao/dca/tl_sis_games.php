@@ -12,7 +12,7 @@ $GLOBALS ['TL_DCA'] ['tl_sis_games'] = [
         'sql' => [
             'keys' => [
                 'id' => 'primary',
-                'sisId' => 'index'
+                'leagueSisId' => 'index'
             ]
         ]
     ],
@@ -67,63 +67,33 @@ $GLOBALS ['TL_DCA'] ['tl_sis_games'] = [
         'id' => [
             'sql' => "int(10) unsigned NOT NULL auto_increment"
         ],
-        'sisId' => [
-            'label' => &$GLOBALS ['TL_LANG'] ['tl_sis_league'] ['sisId'],
-            'exclude' => true,
-            'search' => true,
-            'inputType' => 'text',
-            'eval' => [
-                'mandatory' => true,
-                'tl_class' => 'w50',
-                'maxlength' => 64
-            ],
+        'leagueSisId' => [
             'sql' => "varchar(64) NOT NULL default ''"
         ],
-        'title' => [
+        'date' => [
+            'sql' => "DATETIME NULL"
+        ],
+        'homeTeam' => [
             'sql' => "varchar(255) NOT NULL default ''"
         ],
-        'user' => [
-            'label' => &$GLOBALS ['TL_LANG'] ['tl_sis_league'] ['user'],
-            'exclude' => true,
-            'search' => true,
-            'inputType' => 'text',
-            'eval' => [
-                'tl_class' => 'w50',
-                'maxlength' => 255
-            ],
+        'homeGoals' => [
+            'sql' => "smallint(3) unsigned NOT NULL default '0'"
+        ],
+        'homePoints' => [
+            'sql' => "tinyint(1) unsigned NOT NULL default '0'"
+        ],
+        'enemyTeam' => [
             'sql' => "varchar(255) NOT NULL default ''"
         ],
-        'password' => [
-            'label' => &$GLOBALS ['TL_LANG'] ['tl_sis_league'] ['password'],
-            'exclude' => true,
-            'search' => true,
-            'inputType' => 'password',
-            'eval' => [
-                'tl_class' => 'w50',
-                'maxlength' => 255
-            ],
-            'sql' => "varchar(255) NOT NULL default ''"
+        'enemyGoals' => [
+            'sql' => "smallint(3) unsigned NOT NULL default '0'"
         ],
-        'favoriteTeam' => array(
-            'label' => &$GLOBALS['TL_LANG']['tl_company']['category'],
-            'exclude' => true,
-            'inputType' => 'select',
-            'filter' => true,
-            'foreignKey' => 'tl_company_category.title',
-            'eval' => array(
-                'mandatory' => false,
-                'multiple' => true
-            ),
-            'sql' => "int(10) unsigned NULL",
-            'relation' => array(
-                'type' => 'hasOne',
-                'load' => 'eagerly'
-            ),
-            'options_callback' => array(
-                'Company\Tables\Company',
-                'optionsCallbackCategory'
-            )
-        ),
+        'enemyPoints' => [
+            'sql' => "tinyint(1) unsigned NOT NULL default '0'"
+        ],
+        'address' => [
+            'sql' => "varchar(255) NOT NULL default ''"
+        ]
     ]
 ];
 
