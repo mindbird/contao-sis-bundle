@@ -7,3 +7,8 @@ services:
         Symfony\Component\DependencyInjection\ContainerAwareInterface:
             calls:
                 - ["setContainer", ["@service_container"]]
+
+    mindbird_contao_sis.service.sis:
+        class: Mindbird\Contao\SisBundle\Service\Sis
+        calls:
+            - [updateLeague, ['@?']]

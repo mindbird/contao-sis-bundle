@@ -91,6 +91,12 @@ $GLOBALS ['TL_DCA'] ['tl_sis_league'] = [
         'title' => [
             'sql' => "varchar(255) NOT NULL default ''"
         ],
+        'standingsXml' => [
+            'sql' => "text() NULL"
+        ],
+        'gamesXml' => [
+            'sql' => "text() NULL"
+        ],
         'user' => [
             'label' => &$GLOBALS ['TL_LANG'] ['tl_sis_league'] ['user'],
             'exclude' => true,

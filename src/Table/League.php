@@ -40,10 +40,17 @@ class League
             sprintf($link, $dc->activeRecord->user, $dc->activeRecord->password, $dc->activeRecord->sisId)
         );
         if ($xml !== '') {
+            $link = 'https://www.sis-handball.de/xmlexport/xml_dyn.aspx?user=%s&pass=%s&art=1&auf=%s';
+            $xmlGames = file_get_contents(
+                sprintf($link, $dc->activeRecord->user, $dc->activeRecord->password, $dc->activeRecord->sisId)
+            );
             $xml = simplexml_load_string($xml);
+            $xmlGames = simplexml_load_string($xmlGames);
             if ($xml->Spielklasse) {
                 $league = SisLeagueModel::findByPk($dc->activeRecord->id);
                 $league->title = (string)$xml->Spielklasse->Name;
+                $league->standingsXml = $xml;
+                $league->gamesXml = $xmlGames;
                 $league->save();
             }
         }
