@@ -26,7 +26,7 @@ class SisUpdateAllCommand extends Command
 
         $leagues = SisLeagueModel::findAll();
         if ($leagues !== null) {
-            foreach ($leagues as $league) {
+            while ($leagues->next()) {
                 $arguments = [
                     'sisId' => $leagues->sisId
                 ];
