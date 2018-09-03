@@ -91,6 +91,12 @@ $GLOBALS ['TL_DCA'] ['tl_sis_league'] = [
         'title' => [
             'sql' => "varchar(255) NOT NULL default ''"
         ],
+        'ascentCount' => [
+            'sql' => "tinyint(1) unsigned NOT NULL default '0'"
+        ],
+        'descentCount' => [
+            'sql' => "tinyint(1) unsigned NOT NULL default '0'"
+        ],
         'standingsXml' => [
             'sql' => "text() NULL"
         ],

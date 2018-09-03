@@ -1,0 +1,36 @@
+<?php $this->extend('block_searchable'); ?>
+
+<?php $this->block('content'); ?>
+
+<table>
+    <thead>
+        <tr>
+            <th>Platzierung</th>
+            <th>Mannschaft</th>
+            <th>Spiele</th>
+            <th>Gewonnen</th>
+            <th>Unentschieden</th>
+            <th>Verloren</th>
+            <th>Tore</th>
+            <th>Tordifferenz</th>
+            <th>Punkte</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach($this->position as $position) : ?>
+            <tr class="<?= $position['cssClass'] ?>">
+                <td><?= $position['position'] ?></td>
+                <td><?= $position['team'] ?></td>
+                <td><?= $position['actualGames'] ?>/<?= $position['maxGames'] ?></td>
+                <td><?= $position['gamesWon'] ?></td>
+                <td><?= $position['gamesDraw'] ?></td>
+                <td><?= $position['gamesLost'] ?></td>
+                <td><?= $position['goalsScored'] ?>:<?= $position['goalsCaught'] ?></td>
+                <td><?= $position['goalsDifference'] ?></td>
+                <td><?= $position['pointsScored'] ?>:<?= $position['pointsCaught'] ?></td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+
+<?php $this->endblock(); ?>

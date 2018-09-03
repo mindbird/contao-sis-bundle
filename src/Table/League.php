@@ -36,21 +36,23 @@ class League
     public function onsubmitCallback($dc)
     {
         $link = 'https://www.sis-handball.de/xmlexport/xml_dyn.aspx?user=%s&pass=%s&art=4&auf=%s';
-        $xml = file_get_contents(
+        $rawXml = file_get_contents(
             sprintf($link, $dc->activeRecord->user, $dc->activeRecord->password, $dc->activeRecord->sisId)
         );
-        if ($xml !== '') {
+        if ($rawXml !== '') {
             $link = 'https://www.sis-handball.de/xmlexport/xml_dyn.aspx?user=%s&pass=%s&art=1&auf=%s';
-            $xmlGames = file_get_contents(
+            $rawXmlGames = file_get_contents(
                 sprintf($link, $dc->activeRecord->user, $dc->activeRecord->password, $dc->activeRecord->sisId)
             );
-            $xml = simplexml_load_string($xml);
-            $xmlGames = simplexml_load_string($xmlGames);
+            $xml = simplexml_load_string($rawXml);
+            $xmlGames = simplexml_load_string($rawXmlGames);
             if ($xml->Spielklasse) {
                 $league = SisLeagueModel::findByPk($dc->activeRecord->id);
                 $league->title = (string)$xml->Spielklasse->Name;
-                $league->standingsXml = $xml;
-                $league->gamesXml = $xmlGames;
+                $league->standingsXml = $rawXml;
+                $league->gamesXml = $rawXmlGames;
+                $league->ascentCount = (int)$xml->Spielklasse->Aufstiegsplaetze;
+                $league->descentCount = (int)$xml->Spielklasse->Abstiegsplaetze;
                 $league->save();
             }
         }

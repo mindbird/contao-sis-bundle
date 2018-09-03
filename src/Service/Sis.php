@@ -83,9 +83,11 @@ class Sis
                 $games[] = [
                     'date' => new \DateTime((string)$game->SpielVon),
                     'homeTeam' => (string)$game->Heim,
+                    'homeTeamSisId' => (string)$game->Mannschaft1,
                     'homeGoals' => (int)$game->Tore1,
                     'homePoints' => (int)$game->Punkte1,
                     'enemyTeam' => (string)$game->Gast,
+                    'enemyTeamSisId' => (string)$game->Mannschaft2,
                     'enemyGoals' => (int)$game->Tore2,
                     'enemyPoints' => (int)$game->Punkte2,
                     'address' => (string)$game->HallenName . ', '
@@ -141,11 +143,12 @@ class Sis
                 $standings[] = [
                     'position' => (int)$position->Nr,
                     'team' => (string)$position->Name,
+                    'teamSisId' => (string)$position->Verein,
                     'actualGames' => (int)$position->Spiele,
                     'maxGames' => (int)$position->SpieleInsgesamt,
                     'gamesWon' => (int)$position->Gewonnen,
                     'gamesDraw' => (int)$position->Unentschieden,
-                    'gameslost' => (int)$position->Verloren,
+                    'gamesLost' => (int)$position->Verloren,
                     'goalsScored' => (int)$position->TorePlus,
                     'goalsCaught' => (int)$position->ToreMinus,
                     'goalsDifference' => (int)$position->D,

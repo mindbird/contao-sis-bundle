@@ -76,6 +76,9 @@ $GLOBALS ['TL_DCA'] ['tl_sis_games'] = [
         'homeTeam' => [
             'sql' => "varchar(255) NOT NULL default ''"
         ],
+        'homeTeamSisId' => [
+            'sql' => "varchar(64) NOT NULL default ''"
+        ],
         'homeGoals' => [
             'sql' => "smallint(3) unsigned NOT NULL default '0'"
         ],
@@ -84,6 +87,9 @@ $GLOBALS ['TL_DCA'] ['tl_sis_games'] = [
         ],
         'enemyTeam' => [
             'sql' => "varchar(255) NOT NULL default ''"
+        ],
+        'enemyTeamSisId' => [
+            'sql' => "varchar(64) NOT NULL default ''"
         ],
         'enemyGoals' => [
             'sql' => "smallint(3) unsigned NOT NULL default '0'"
