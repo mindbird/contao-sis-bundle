@@ -31,6 +31,10 @@ class Sis
             $standingsXml = $this->fetchStandingsXmlFromSis($league->user, $league->password, $league->sisId);
             if ($standingsXml !== null) {
                 $league->$standingsXml = $standingsXml;
+                $standings = $this->parseStandingsXml($standingsXml);
+                if (\count($standings) > 0) {
+                    $this->writeStandingsDataToDb($sisId, $standings);
+                }
             }
 
             $league->save();
@@ -114,6 +118,64 @@ class Sis
                 $gameModel->date = $game['date']->format('Y-m-d H:i:s');
                 $gameModel->leagueSisId = $sisId;
                 $gameModel->save();
+            }
+        } catch (\Exception $e) {
+            System::getContainer()->get('monolog.logger.contao')
+                ->log(
+                    LogLevel::EMERGENCY,
+                    'Can not access db',
+                    [
+                        'contao' => new ContaoContext(__CLASS__ . '::' . __FUNCTION__, TL_ERROR)
+                    ]
+                );
+        }
+
+    }
+
+    protected function parseStandingsXml($xml): array
+    {
+        $standings = [];
+        $xmlObject = simplexml_load_string($xml);
+        foreach ($xmlObject->Platzierung as $position) {
+                $standings[] = [
+                    'position' => (int)$position->Nr,
+                    'team' => (string)$position->Name,
+                    'actualGames' => (int)$position->Spiele,
+                    'maxGames' => (int)$position->SpieleInsgesamt,
+                    'gamesWon' => (int)$position->Gewonnen,
+                    'gamesDraw' => (int)$position->Unentschieden,
+                    'gameslost' => (int)$position->Verloren,
+                    'goalsScored' => (int)$position->TorePlus,
+                    'goalsCaught' => (int)$position->ToreMinus,
+                    'goalsDifference' => (int)$position->D,
+                    'pointsScored' => (int)$position->PunktePlus,
+                    'pointsCaught' => (int)$position->PunkteMinus,
+                ];
+        }
+        var_dump($standings);
+
+        return $standings;
+    }
+
+    /**
+     * @param $sisId
+     * @param $standings
+     * @throws \Doctrine\DBAL\DBALException
+     */
+    protected function writeStandingsDataToDb($sisId, $standings): void
+    {
+        try {
+            /** @var $db Connection */
+            $db = System::getContainer()->get('doctrine')->getConnection();
+            $deleteStatment = $db->prepare("DELETE FROM tl_sis_standings WHERE leagueSisId = :leagueSisId");
+            $deleteStatment->bindParam('leagueSisId', $sisId);
+            $deleteStatment->execute();
+
+            foreach ($standings as $position) {
+                $standingModel = new SisLeagueModel();
+                $standingModel->setRow($position);
+                $standingModel->leagueSisId = $sisId;
+                $standingModel->save();
             }
         } catch (\Exception $e) {
             System::getContainer()->get('monolog.logger.contao')
