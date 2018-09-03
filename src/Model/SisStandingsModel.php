@@ -12,7 +12,7 @@ namespace Mindbird\Contao\SisBundle\Model;
 
 use Contao\Model;
 
-class SisGamesModel extends Model
+class SisStandingsModel extends Model
 {
     protected static $strTable = 'tl_sis_standings';
 }

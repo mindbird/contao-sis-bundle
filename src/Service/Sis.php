@@ -7,6 +7,7 @@ use Contao\System;
 use Doctrine\DBAL\Connection;
 use Mindbird\Contao\SisBundle\Model\SisGamesModel;
 use Mindbird\Contao\SisBundle\Model\SisLeagueModel;
+use Mindbird\Contao\SisBundle\Model\SisStandingsModel;
 use Psr\Log\LogLevel;
 
 class Sis
@@ -152,7 +153,6 @@ class Sis
                     'pointsCaught' => (int)$position->PunkteMinus,
                 ];
         }
-        var_dump($standings);
 
         return $standings;
     }
@@ -172,7 +172,7 @@ class Sis
             $deleteStatment->execute();
 
             foreach ($standings as $position) {
-                $standingModel = new SisLeagueModel();
+                $standingModel = new SisStandingsModel();
                 $standingModel->setRow($position);
                 $standingModel->leagueSisId = $sisId;
                 $standingModel->save();
