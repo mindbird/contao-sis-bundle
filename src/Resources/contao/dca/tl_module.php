@@ -1,6 +1,7 @@
 <?php
 
 $GLOBALS['TL_DCA']['tl_module']['palettes']['sis_standings'] = '{title_legend},name,type;{sis_legend},sisLeague;';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['sis_games'] = '{title_legend},name,type;{sis_legend},sisLeague;';
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['sisLeague'] = [
     'label' => &$GLOBALS['TL_LANG']['tl_module']['sisLeague'],

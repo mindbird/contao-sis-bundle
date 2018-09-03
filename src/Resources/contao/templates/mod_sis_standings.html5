@@ -8,9 +8,7 @@
             <th>Platzierung</th>
             <th>Mannschaft</th>
             <th>Spiele</th>
-            <th>Gewonnen</th>
-            <th>Unentschieden</th>
-            <th>Verloren</th>
+            <th colspan="3">G/U/V</th>
             <th>Tore</th>
             <th>Tordifferenz</th>
             <th>Punkte</th>
