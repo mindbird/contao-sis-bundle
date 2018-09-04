@@ -1,0 +1,34 @@
+<?php $this->extend('block_searchable'); ?>
+
+<?php $this->block('content'); ?>
+<div class="saturday">
+    <h3>Samstag <?= $this->games['saturday']['date'] ?></h3>
+    <?php foreach($this->games['saturday']['games'] as $game) : ?>
+        <div class="game">
+            <div class="dayOfWeek"><?= $game['dayOfWeek'] ?></div>
+            <div class="date"><?= $game['date'] ?></div>
+            <div class="time"><?= $game['time'] ?></div>
+            <div class="homeTeam"><?= $game['homeTeam'] ?></div>
+            <div class="enemyTeam"><?= $game['enemyTeam'] ?></div>
+            <div class="goals"><?= $game['homeGoals'] ?>:<?= $game['enemyGoals'] ?></div>
+            <div class="points"><?= $game['homePoints'] ?>:<?= $game['enemyPoints'] ?></div>
+            <div class="address"><?= $game['address'] ?></div>
+        </div>
+    <?php endforeach; ?>
+</div>
+<div class="sunday">
+    <h3>Sonntag <?= $this->games['saturday']['date'] ?></h3>
+    <?php foreach($this->games['saturday']['games'] as $game) : ?>
+    <div class="game">
+        <div class="dayOfWeek"><?= $game['dayOfWeek'] ?></div>
+        <div class="date"><?= $game['date'] ?></div>
+        <div class="time"><?= $game['time'] ?></div>
+        <div class="homeTeam"><?= $game['homeTeam'] ?></div>
+        <div class="enemyTeam"><?= $game['enemyTeam'] ?></div>
+        <div class="goals"><?= $game['homeGoals'] ?>:<?= $game['enemyGoals'] ?></div>
+        <div class="points"><?= $game['homePoints'] ?>:<?= $game['enemyPoints'] ?></div>
+        <div class="address"><?= $game['address'] ?></div>
+    </div>
+    <?php endforeach; ?>
+</div>
+<?php $this->endblock(); ?>
