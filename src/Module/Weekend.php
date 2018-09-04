@@ -49,7 +49,7 @@ class Weekend extends Module
 
         $saturdayEnd = clone $saturday->setTime(23, 59, 59);
         $saturdayStart = clone $saturday->setTime(0, 0, 0);
-        $gamesSaturday = SisGamesModel::findBy(['date >= ? ', 'date <= ?'], [$saturdayStart->format('Y-m-d H:i'), $saturdayEnd->format('Y-m-d H:i')]);
+        $gamesSaturday = SisGamesModel::findBy(['date >= ? ', 'date <= ?'], [$saturdayStart->format('Y-m-d H:i'), $saturdayEnd->format('Y-m-d H:i')], ['order' => 'date ASC']);
         if ($gamesSaturday !== null && $gamesSaturday->count() > 0) {
             $games['saturday']['date'] = $saturday->format('d.m.Y');
             $games['saturday']['games'] = $gamesSaturday;
@@ -58,7 +58,7 @@ class Weekend extends Module
 
         $sundayEnd = clone $sunday->setTime(23, 59, 59);
         $sundayStart = clone $sunday->setTime(0, 0, 0);
-        $gamesSunday = SisGamesModel::findBy(['date >= ?', 'date <= ?'], [$sundayStart->format('Y-m-d H:i'), $sundayEnd->format('Y-m-d H:i')]);
+        $gamesSunday = SisGamesModel::findBy(['date >= ?', 'date <= ?'], [$sundayStart->format('Y-m-d H:i'), $sundayEnd->format('Y-m-d H:i')], ['order' => 'date ASC']);
         if ($gamesSunday !== null && $gamesSunday->count() > 0) {
             $games['sunday']['date'] = $sunday->format('d.m.Y');
             $games['sunday']['games'] = $gamesSunday;
