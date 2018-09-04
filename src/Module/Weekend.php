@@ -52,7 +52,7 @@ class Weekend extends Module
         $gamesSaturday = SisGamesModel::findBy(['date >= ? ', 'date <= ?'], [$saturdayStart->format('Y-m-d H:i'), $saturdayEnd->format('Y-m-d H:i')], ['order' => 'date ASC']);
         if ($gamesSaturday !== null && $gamesSaturday->count() > 0) {
             $games['saturday']['date'] = $saturday->format('d.m.Y');
-            $games['saturday']['games'] = $gamesSaturday;
+            $games['saturday']['games'] = $gamesSaturday->fetchAll();
             $gamesOnWeekend = true;
         }
 
@@ -61,7 +61,7 @@ class Weekend extends Module
         $gamesSunday = SisGamesModel::findBy(['date >= ?', 'date <= ?'], [$sundayStart->format('Y-m-d H:i'), $sundayEnd->format('Y-m-d H:i')], ['order' => 'date ASC']);
         if ($gamesSunday !== null && $gamesSunday->count() > 0) {
             $games['sunday']['date'] = $sunday->format('d.m.Y');
-            $games['sunday']['games'] = $gamesSunday;
+            $games['sunday']['games'] = $gamesSunday->fetchAll();
             $gamesOnWeekend = true;
         }
 
