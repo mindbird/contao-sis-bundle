@@ -136,11 +136,11 @@ class Weekend extends Module
         $league = SisLeagueModel::findBy('sisId', $game->leagueSisId);
         $homeTeam = $game->homeTeam;
         if ($game->homeTeamSisId === $league->favoriteTeam && $league->teamName !== '') {
-            $homeTeam = $league->teamName;
+            $homeTeam = '<span class="favoriteTeam">' . $league->teamName . '</span>';
         }
         $enemyTeam = $game->enemyTeam;
         if ($game->enemyTeamSisId === $league->favoriteTeam && $league->teamName !== '') {
-            $enemyTeam = $league->teamName;
+            $enemyTeam = '<span class="favoriteTeam">' . $league->teamName . '</span>';
         }
         $date = new \DateTime($game->date);
         return array_merge(
