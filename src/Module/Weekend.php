@@ -5,6 +5,7 @@ namespace Mindbird\Contao\SisBundle\Module;
 use Contao\BackendTemplate;
 use Contao\Module;
 use Mindbird\Contao\SisBundle\Model\SisGamesModel;
+use Mindbird\Contao\SisBundle\Model\SisLeagueModel;
 
 class Weekend extends Module
 {
@@ -49,36 +50,48 @@ class Weekend extends Module
 
         $saturdayEnd = clone $saturday->setTime(23, 59, 59);
         $saturdayStart = clone $saturday->setTime(0, 0, 0);
-        $gamesSaturday = SisGamesModel::findBy(['date >= ? ', 'date <= ?'], [$saturdayStart->format('Y-m-d H:i'), $saturdayEnd->format('Y-m-d H:i')], ['order' => 'date ASC']);
+        $gamesSaturday = SisGamesModel::findBy(
+            [
+                'date >= ? ',
+                'date <= ?'
+            ],
+            [
+                $saturdayStart->format('Y-m-d H:i'),
+                $saturdayEnd->format('Y-m-d H:i')
+            ],
+            [
+                'order' => 'date ASC'
+            ]
+        );
         if ($gamesSaturday !== null && $gamesSaturday->count() > 0) {
             $games['saturday']['date'] = $saturday->format('d.m.Y');
             while ($gamesSaturday->next()) {
                 $date = new \DateTime($gamesSaturday->date);
-                $games['saturday']['games'][] = array_merge(
-                    $gamesSaturday->row(),
-                    [
-                        'date' => $date->format('d.m.Y'),
-                        'time' => $date->format('H:i')
-                    ]
-                );
+                $games['saturday']['games'][] = $this->prepareGameData($gamesSaturday);
             }
             $gamesOnWeekend = true;
         }
 
         $sundayEnd = clone $sunday->setTime(23, 59, 59);
         $sundayStart = clone $sunday->setTime(0, 0, 0);
-        $gamesSunday = SisGamesModel::findBy(['date >= ?', 'date <= ?'], [$sundayStart->format('Y-m-d H:i'), $sundayEnd->format('Y-m-d H:i')], ['order' => 'date ASC']);
+        $gamesSunday = SisGamesModel::findBy(
+            [
+                'date >= ?',
+                'date <= ?'
+            ],
+            [
+                $sundayStart->format('Y-m-d H:i'),
+                $sundayEnd->format('Y-m-d H:i')
+            ],
+            [
+                'order' => 'date ASC'
+            ]
+        );
         if ($gamesSunday !== null && $gamesSunday->count() > 0) {
             $games['sunday']['date'] = $sunday->format('d.m.Y');
             while ($gamesSunday->next()) {
                 $date = new \DateTime($gamesSunday->date);
-                $games['sunday']['games'][] = array_merge(
-                    $gamesSunday->row(),
-                    [
-                        'date' => $date->format('d.m.Y'),
-                        'time' => $date->format('H:i')
-                    ]
-                );
+                $games['sunday']['games'][] = $this->prepareGameData($gamesSunday);
             }
             $gamesOnWeekend = true;
         }
@@ -88,6 +101,7 @@ class Weekend extends Module
         }
 
         $counter++;
+
         return $this->getNextWeekendWithGames($date->add(new \DateInterval('P7D')), $counter);
     }
 
@@ -100,14 +114,43 @@ class Weekend extends Module
         if ($satDiff > 0) {
             $saturday = $saturday->add(new \DateInterval('P' . $satDiff . 'D'));
         } elseif ($satDiff < 0) {
-            $saturday = $saturday->sub(new \DateInterval('P' . -1*$satDiff . 'D'));
+            $saturday = $saturday->sub(new \DateInterval('P' . -1 * $satDiff . 'D'));
         }
 
         $sunday = clone $saturday;
         $sunday->add(new \DateInterval('P1D'));
+
         return [
             'saturday' => $saturday,
             'sunday' => $sunday
         ];
+    }
+
+    /**
+     * @param SisGamesModel $game
+     * @return array
+     */
+    protected function prepareGameData($game)
+    {
+        /** @var SisLeagueModel $league */
+        $league = SisLeagueModel::findBy('sisId', $game->leagueSisId);
+        $homeTeam = $game->homeTeam;
+        if ($game->homeTeamSisId === $league->favoriteTeam) {
+            $homeTeam = $league->teamName;
+        }
+        $enemyTeam = $game->enemyTeam;
+        if ($game->enemyTeamSisId === $league->favoriteTeam) {
+            $enemyTeam = $league->teamName;
+        }
+        $date = new \DateTime($game->date);
+        return array_merge(
+            $game->row(),
+            [
+                'date' => $date->format('d.m.Y'),
+                'time' => $date->format('H:i'),
+                'homeTeam' => $homeTeam,
+                'enemyTeam' => $enemyTeam
+            ]
+        );
     }
 }

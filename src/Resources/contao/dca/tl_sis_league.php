@@ -27,15 +27,16 @@ $GLOBALS ['TL_DCA'] ['tl_sis_league'] = [
         'sorting' => [
             'mode' => 1,
             'fields' => [
-                'title'
+                'teamName'
             ]
         ],
         'label' => [
             'fields' => [
                 'sisId',
-                'title'
+                'title',
+                'teamName'
             ],
-            'format' => '[%s] %s'
+            'format' => '[%s] %s - %s'
         ],
         'global_operations' => [
             'all' => [
@@ -66,7 +67,7 @@ $GLOBALS ['TL_DCA'] ['tl_sis_league'] = [
     ],
     // Palettes
     'palettes' => [
-        'default' => '{name_legend},sisId,user,password,favoriteTeam;'
+        'default' => '{name_legend},sisId,user,password,favoriteTeam,teamName;'
     ],
     // Fields
     'fields' => [
@@ -109,7 +110,7 @@ $GLOBALS ['TL_DCA'] ['tl_sis_league'] = [
             'search' => true,
             'inputType' => 'text',
             'eval' => [
-                'tl_class' => 'w50',
+                'tl_class' => 'clr w50',
                 'maxlength' => 255
             ],
             'sql' => "varchar(255) NOT NULL default ''"
@@ -131,13 +132,25 @@ $GLOBALS ['TL_DCA'] ['tl_sis_league'] = [
             'inputType' => 'select',
             'filter' => true,
             'eval' => [
-                'tl_class' => 'w50'
+                'tl_class' => 'clr w50'
             ],
             'sql' => "varchar(64) NOT NULL default ''",
             'options_callback' => [
                 'Mindbird\Contao\SisBundle\Table\League',
                 'optionsCallbackTeam'
             ]
+        ],
+        'teamName' => [
+            'label' => &$GLOBALS ['TL_LANG'] ['tl_sis_league'] ['teamName'],
+            'exclude' => true,
+            'search' => true,
+            'inputType' => 'text',
+            'eval' => [
+                'mandatory' => true,
+                'tl_class' => 'w50',
+                'maxlength' => 64
+            ],
+            'sql' => "varchar(64) NOT NULL default ''"
         ],
     ]
 ];
