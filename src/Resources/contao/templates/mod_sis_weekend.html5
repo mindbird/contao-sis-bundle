@@ -13,8 +13,8 @@
     <?php endforeach; ?>
 </div>
 <div class="sunday">
-    <h3>Sonntag <?= $this->games['saturday']['date'] ?></h3>
-    <?php foreach($this->games['saturday']['games'] as $game) : ?>
+    <h3>Sonntag <?= $this->games['sunday']['date'] ?></h3>
+    <?php foreach($this->games['sunday']['games'] as $game) : ?>
     <div class="game">
         <div class="time"><?= $game['time'] ?></div>
         <div class="homeTeam"><?= $game['homeTeam'] ?></div>

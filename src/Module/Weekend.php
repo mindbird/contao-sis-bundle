@@ -42,8 +42,8 @@ class Weekend extends Module
         $saturday = $weekend['saturday'];
         $sunday = $weekend['sunday'];
         $games = [
-            'saturday' => ['date', 'games'],
-            'sunday' => ['date', 'games']
+            'saturday' => ['date', 'games' => []],
+            'sunday' => ['date', 'games' => []]
         ];
 
 
@@ -52,7 +52,16 @@ class Weekend extends Module
         $gamesSaturday = SisGamesModel::findBy(['date >= ? ', 'date <= ?'], [$saturdayStart->format('Y-m-d H:i'), $saturdayEnd->format('Y-m-d H:i')], ['order' => 'date ASC']);
         if ($gamesSaturday !== null && $gamesSaturday->count() > 0) {
             $games['saturday']['date'] = $saturday->format('d.m.Y');
-            $games['saturday']['games'] = $gamesSaturday->fetchAll();
+            while ($gamesSaturday->next()) {
+                $date = new \DateTime($gamesSaturday->date);
+                $games['saturday']['games'][] = array_merge(
+                    $gamesSaturday->row(),
+                    [
+                        'date' => $date->format('d.m.Y'),
+                        'time' => $date->format('H:i')
+                    ]
+                );
+            }
             $gamesOnWeekend = true;
         }
 
@@ -61,7 +70,16 @@ class Weekend extends Module
         $gamesSunday = SisGamesModel::findBy(['date >= ?', 'date <= ?'], [$sundayStart->format('Y-m-d H:i'), $sundayEnd->format('Y-m-d H:i')], ['order' => 'date ASC']);
         if ($gamesSunday !== null && $gamesSunday->count() > 0) {
             $games['sunday']['date'] = $sunday->format('d.m.Y');
-            $games['sunday']['games'] = $gamesSunday->fetchAll();
+            while ($gamesSunday->next()) {
+                $date = new \DateTime($gamesSunday->date);
+                $games['sunday']['games'][] = array_merge(
+                    $gamesSunday->row(),
+                    [
+                        'date' => $date->format('d.m.Y'),
+                        'time' => $date->format('H:i')
+                    ]
+                );
+            }
             $gamesOnWeekend = true;
         }
 
