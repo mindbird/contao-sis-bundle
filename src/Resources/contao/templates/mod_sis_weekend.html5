@@ -6,8 +6,7 @@
     <?php foreach($this->games['saturday']['games'] as $game) : ?>
         <div class="game">
             <div class="time"><?= $game['time'] ?></div>
-            <div class="homeTeam"><?= $game['homeTeam'] ?></div>
-            <div class="enemyTeam"><?= $game['enemyTeam'] ?></div>
+            <div class="teams"><?= $game['homeTeam'] ?> - <?= $game['enemyTeam'] ?></div>
             <div class="address"><?= $game['address'] ?></div>
         </div>
     <?php endforeach; ?>
@@ -17,8 +16,7 @@
     <?php foreach($this->games['sunday']['games'] as $game) : ?>
     <div class="game">
         <div class="time"><?= $game['time'] ?></div>
-        <div class="homeTeam"><?= $game['homeTeam'] ?></div>
-        <div class="enemyTeam"><?= $game['enemyTeam'] ?></div>
+        <div class="teams"><?= $game['homeTeam'] ?> - <?= $game['enemyTeam'] ?></div>
         <div class="address"><?= $game['address'] ?></div>
     </div>
     <?php endforeach; ?>
