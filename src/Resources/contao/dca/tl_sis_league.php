@@ -127,7 +127,7 @@ $GLOBALS ['TL_DCA'] ['tl_sis_league'] = [
             'sql' => "varchar(255) NOT NULL default ''"
         ],
         'favoriteTeam' => [
-            'label' => &$GLOBALS['TL_LANG']['tl_company']['category'],
+            'label' => &$GLOBALS['TL_LANG']['tl_sis_league']['favoriteTeam'],
             'exclude' => true,
             'inputType' => 'select',
             'filter' => true,

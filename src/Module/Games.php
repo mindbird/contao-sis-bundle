@@ -6,7 +6,6 @@ use Contao\BackendTemplate;
 use Contao\Module;
 use Mindbird\Contao\SisBundle\Model\SisGamesModel;
 use Mindbird\Contao\SisBundle\Model\SisLeagueModel;
-use Mindbird\Contao\SisBundle\Model\SisStandingsModel;
 
 class Games extends Module
 {
@@ -33,7 +32,25 @@ class Games extends Module
         /** @var $league SisLeagueModel */
         $league = SisLeagueModel::findByPk($this->sisLeague);
         if ($league !== null) {
-            $game = SisGamesModel::findBy('leagueSisId', $league->sisId);
+            $options = [
+                'column' => [
+                    'leagueSisId = ?'
+                ],
+                'value' => [
+                    $league->sisId
+                ]
+            ];
+            if ($this->sisUpcomingGames === 1) {
+                $date = new \DateTime();
+                $options['column'][] = 'date >= ?';
+                $options['value'][] = $date->format('Y-m-d H:i');
+            }
+
+            if ($this->sisNumberOfGames > 0) {
+                $options['limit'] = $this->sisNumberOfGames;
+            }
+
+            $game = SisGamesModel::findAll($options);
             if ($game !== null) {
                 while ($game->next()) {
                     $cssClass = [];
