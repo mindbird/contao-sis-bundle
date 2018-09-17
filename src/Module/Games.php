@@ -40,7 +40,8 @@ class Games extends Module
                     $league->sisId
                 ]
             ];
-            if ($this->sisUpcomingGames === 1) {
+
+            if ((int)$this->sisUpcomingGames === 1) {
                 $date = new \DateTime();
                 $options['column'][] = 'date >= ?';
                 $options['value'][] = $date->format('Y-m-d H:i');
